@@ -42,7 +42,7 @@ export default function Home() {
             <Topbar />
             <form className="container mx-auto flex space-y-6 justify-center flex-col w-4/6 bg-gray-300 p-4 rounded-lg"
             onSubmit={handleSubmit}>
-                <div className="flex space-x-6 justify-center">
+                <div className="flex flex-col md:flex-row space-x-0 md:space-x-6 space-y-4 md:space-y-0 justify-center">
                     <div className="flex flex-col space-y-2">
                         <Label htmlFor="countryName">Name</Label>
                         <Input id="name" name="name" type="text" className="bg-white"/>
@@ -62,16 +62,16 @@ export default function Home() {
                 </div>
             </form>
             <Separator />
-            <div className="flex justify-center space-x-2" >
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
                 {countries?.map((country) => (
-                <Link href={`/country/${country.code}`} key={country.id}>
-                    <div key={country.id} className="flex flex-col justify-center border rounded-xl p-4">
-                        <div className="flex justify-center">{country.name}</div>
-                        <div className="flex justify-center">{country.emoji}</div>
-                        <div className="flex justify-center">{country.code}</div>
-                    </div>
-                </Link>
-            ))}
+                    <Link href={`/country/${country.code}`} key={country.id}>
+                        <div key={country.id} className="flex flex-col justify-center border rounded-xl p-4">
+                            <div className="flex justify-center">{country.name}</div>
+                            <div className="flex justify-center">{country.emoji}</div>
+                            <div className="flex justify-center">{country.code}</div>
+                        </div>
+                    </Link>
+                ))}
             </div>
 
         </main>
