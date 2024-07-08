@@ -4,5 +4,8 @@ mutation AddCountry($data: NewCountryInput!) {
     code
     name
     emoji
+    continent {
+      name
+    }
   }
 }

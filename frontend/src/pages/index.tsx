@@ -3,8 +3,18 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import {CountriesDocument, useAddCountryMutation, useCountriesQuery, useCountryQuery} from "@/graphql/generated/schema";
+import {CountriesDocument, useAddCountryMutation, useCountriesQuery, useCountryQuery, useContinentsQuery} from "@/graphql/generated/schema";
 import Link from "next/link";
+import React, { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+  SelectLabel,
+} from "@/components/ui/select"
 
 
 export default function Home() {
@@ -14,15 +24,20 @@ export default function Home() {
         }]
     });
 
-
+    const [selectedContinent, setSelectedContinent] = useState('');
     const getAllCountries = useCountriesQuery();
-
+    const getContinents = useContinentsQuery();
 
     const handleSubmit =(e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault()
 
+        // if (!selectedContinent) return alert('Please select a continent');
+
         const formData = new FormData(e.target as HTMLFormElement);
         const formJSON: any = Object.fromEntries(formData.entries());
+        console.log(selectedContinent);
+        // formJSON.continent = { id: selectedContinent};
+
         addCountryMutation({variables: {data: formJSON}});
 
     }
@@ -36,6 +51,9 @@ export default function Home() {
     if (error) return <p>Error :(</p>;
 
     const country = data?.country;
+
+
+
   return (
       <>
         <main className="flex flex-col space-y-6">
@@ -54,6 +72,24 @@ export default function Home() {
                     <div className="flex flex-col space-y-2">
                         <Label htmlFor="countryCode">Code</Label>
                         <Input id="code" name="code" type="text" className="bg-white"/>
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                        <Label htmlFor="continentName">Continent</Label>
+                        <Select>
+                          <SelectTrigger className="w-[180px] bg-white">
+                            <SelectValue placeholder="Select a continent" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Continent</SelectLabel>
+                                {getContinents.data?.continents.map((continent) => (
+                                  <SelectItem key={continent.id} value={continent.name} onChange={() => setSelectedContinent(continent.name)}>
+                                    {continent.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                     </div>
                 </div>
                 <div className="flex space-x-6 justify-end">
