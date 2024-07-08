@@ -19,7 +19,7 @@ export default function Country() {
         <div className="w-full h-[100vh] flex space-y-6 flex-col bg-gray-300 p-4 rounded-lg">
             <p className=" w-full text-center text-8xl">{country?.emoji}</p>
             <h1 className="text-2xl font-bold w-full text-center">Name: {country?.name} ({country?.code})</h1>
-            <p className=" w-full text-center">continent: ?</p>
+            <p className=" w-full text-center">continent: {country?.continent?.name}</p>
         </div>
         </>
     );

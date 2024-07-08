@@ -4,5 +4,8 @@ query Country($code: String!) {
     code
     name
     emoji
+    continent {
+      name
+    }
   }
 }
